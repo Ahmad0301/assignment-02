@@ -24,3 +24,9 @@ app.get('/items', (req, res) => {
     }
   });
   
+  app.post('/items', (req, res) => {
+    const newItem = req.body;
+    newItem.id = items.length + 1; 
+    items.push(newItem);
+    res.status(201).json(newItem);
+  });
