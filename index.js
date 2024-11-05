@@ -30,3 +30,31 @@ app.get('/items', (req, res) => {
     items.push(newItem);
     res.status(201).json(newItem);
   });
+
+  app.get('/items/search', (req, res) => {
+    const nameQuery = req.query.name;
+    const results = items
+    res.json(results);
+  });
+
+  app.put('/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = items.findIndex(i => i.id === id);
+    if (index !== -1) {
+      items[index] = { ...items[index], ...req.body };
+      res.json(items[index]);
+    } else {
+      res.status(404).json({ message: "Item not found" });
+    }
+  });
+
+  app.delete('/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = items.findIndex(i => i.id === id);
+    if (index !== -1) {
+      const deletedItem = items.splice(index, 1);
+      res.json(deletedItem);
+    } else {
+      res.status(404).json({ message: "Item not found" });
+    }
+  });
